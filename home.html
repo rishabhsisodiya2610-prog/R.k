@@ -1,110 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>R.K Sweets And Namkeen</title>
-    <style>
-        /* Reset CSS */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>R.K Sweets And Namkeen</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        /* Global styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa; /* Light background */
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Prevent scrolling */
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      color: #212529;
+      line-height: 1.5;
+    }
 
-        /* Header styles */
-        header {
-            text-align: center;
-            margin-bottom: 20px; /* Decreased margin */
-            flex-shrink: 0; /* Header won't shrink */
-            padding: 20px 0; /* Add padding */
-            background-color: #343a40; /* Dark background */
-            color: #ffffff; /* Text color */
-            position: relative; /* Position relative for logo */
-        }
+    header {
+      text-align: center;
+      padding: 20px 10px;
+      background-color: #343a40;
+      color: #fff;
+      position: relative;
+    }
 
-        header img {
-            position: absolute;
-            top: 10px; /* Adjusted position */
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px; /* Adjust width */
-            height: auto; /* Maintain aspect ratio */
-        }
+    header img.logo {
+      width: 90px;
+      height: auto;
+      margin-bottom: 10px;
+    }
 
-        header h1 {
-            font-size: 36px; /* Larger font size */
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
+    header h1 {
+      font-size: 28px;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        header p {
-            font-size: 20px; /* Larger font size */
-            margin-bottom: 20px;
-        }
+    header p {
+      font-size: 16px;
+      margin: 0;
+    }
 
-        /* Container */
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-            max-width: 1200px;
-            width: 100%;
-            margin: auto; /* Center container horizontally */
-            padding: 20px;
-            flex-grow: 1; /* Allow container to grow */
-        }
+    nav {
+      background-color: #343a40;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      padding: 10px;
+    }
 
-        /* Card styles */
-        .card {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); /* Increased shadow */
-            padding: 10px; /* Decreased padding */
-            margin: 10px; /* Decreased margin */
-            text-align: center;
-            width: calc(33.33% - 20px); /* Adjusted width */
-            transition: transform 0.3s ease; /* Smooth transition */
-        }
+    nav a,
+    .logout-button {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-size: 15px;
+      transition: 0.3s;
+      border: none;
+    }
 
-        .card:hover {
-            transform: translateY(-5px); /* Lift effect on hover */
-        }
+    nav a:hover,
+    .logout-button:hover {
+      background-color: #0056b3;
+    }
 
-        .card h2 {
-            margin-top: 0;
-            color: #343a40;
-            font-size: 20px; /* Decreased font size */
-            margin-bottom: 10px; /* Decreased margin */
-        }
+    .logout-button {
+      background-color: #dc3545;
+    }
 
-        .card p {
-            color: #6c757d;
-            font-size: 14px; /* Decreased font size */
-            margin-bottom: 0px; /* Decreased margin */
-        }
+    .logout-button:hover {
+      background-color: #c82333;
+    }
 
-        /* Button styles */
-        .button {
-            display: inline-block;
-            padding: 8px 16px; /* Decreased padding */
-            font-size: 16px; /* Decreased font size */
-            text-align: center;
-            text-decoration: none;
-            color: #ffffff;
-            background-color: #007bff;
-            border: none;
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.08);
+      padding: 20px;
+      width: calc(33.33% - 40px);
+      text-align: center;
+      transition: transform 0.3s ease;
+      min-width: 260px;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card h2 {
+      font-size: 18px;
+      color: #343a40;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #6c757d;
+      margin-bottom: 15px;
+    }
+
+    .button {
+      background-color: #007bff;
+      padding: 10px 18px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: 0.3s;
+      display: inline-block;
+    }
+
+    .button:hover {
+      background-color: #0056b3;
+    }
+
+    .footer {
+      text-align: right;
+      padding: 10px 20px;
+      font-size: 13px;
+      color: #6c757d;
+    }
+
+    @media (max-width: 992px) {
+      .card {
+        width: calc(50% - 30px);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 22px;
+      }
+
+      header p {
+        font-size: 14px;
+      }
+
+      .card {
+        width: 100%;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      nav a,
+      .logout-button {
+        width: 100%;
+        text-align: center;
+        font-size: 16px;
+      }
+
+      .footer {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="Brand.png" alt="Company Logo" class="logo" />
+    <h1>R.K Sweets And Namkeen</h1>
+    <p>AN ENDURING TRADITION OF SWEETNESS</p>
+  </header>
+
+  <nav>
+    <a href="neworder.html">New Order</a>
+    <a href="allorders.html">All Orders</a>
+    <a href="Ldgr.html">Order Slip</a>
+    <a href="snacks.html">Snacks</a>
+    <a href="packing.html">Packing</a>
+    <a href="ordertime.html">Department Wise</a>
+    <button class="logout-button" onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <h2>New Order</h2>
+      <p>Place a new order for customers</p>
+      <a href="neworder.html" class="button">New Order</a>
+    </div>
+
+    <div class="card">
+      <h2>Department WhatsApp</h2>
+      <p>Send Order on WhatsApp</p>
+      <a href="whatapp.html" class="button">WhatsApp</a>
+    </div>
+
+    <div class="card">
+      <h2>All Orders</h2>
+      <p>View and edit all orders placed</p>
+      <a href="allorders.html" class="button">All Orders</a>
+    </div>
+
+    <div class="card">
+      <h2>Order Slip</h2>
+      <p>Order Booking Slip</p>
+      <a href="Ldgr.html" class="button">Order Slip</a>
+    </div>
+
+    <div class="card">
+      <h2>Snacks</h2>
+      <p>View All orders Snack list</p>
+      <a href="snacks.html" class="button">Snacks</a>
+    </div>
+
+    <div class="card">
+      <h2>Packing</h2>
+      <p>View All orders Packing list</p>
+      <a href="packing.html" class="button">Packing</a>
+    </div>
+
+    <div class="card">
+      <h2>Department</h2>
+      <p>Use Filter For All Orders</p>
+      <a href="ordertime.html" class="button">Department Wise</a>
+    </div>
+
+    <div class="card" id="ledgerBalanceCard">
+      <!-- Ledger balance will be dynamically inserted -->
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      displayLedgerBalance();
+    });
+
+    function displayLedgerBalance() {
+      var ledgerData = JSON.parse(localStorage.getItem('allOrders')) || [];
+      var totalBalance = ledgerData.reduce(function (acc, order) {
+        return acc + parseFloat(order.balance || 0);
+      }, 0);
+
+      var ledgerBalanceCard = document.getElementById('ledgerBalanceCard');
+      ledgerBalanceCard.innerHTML = `
+        <h2>Total Ledger Balance</h2>
+        <p>₹${totalBalance.toFixed(2)}</p>
+      `;
+    }
+
+    function logout() {
+      sessionStorage.removeItem('authenticated');
+      window.location.href = "index.html";
+    }
+
+    if (!sessionStorage.getItem('authenticated')) {
+      window.location.href = 'index.html';
+    }
+
+    window.onload = function () {
+      history.pushState(null, null, location.href);
+      window.onpopstate = function () {
+        history.go(1);
+      };
+    };
+  </script>
+
+  <div class="footer">Developed by The TechMasters (thetechmasters.in)</div>
+</body>
+</html>
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -284,4 +457,5 @@
 
 </body>
 </html>
+
 
