@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Order</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+/* Navigation styles */
+nav {
+    background-color: #343a40;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+nav a:hover {
+    background-color: #495057;
+}
+
+/* Container styles */
+.container {
+    margin: 10px auto;
+    max-width: 70%;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Form styles */
+.section {
+    flex: 0 1 calc(33.33% - 20px);
+    margin-bottom: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+label {
+    flex: 0 1 calc(50% - 10px);
+    margin-bottom: 10px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"] {
+    width: calc(100% - 10px);
+    padding: 5px;
+    margin-bottom: 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.item-container {
+    flex: 0 1 calc(100% - 20px);
+    margin-bottom: 30px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .section {
+        flex: 0 1 100%;
+    }
+
+    label,
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"] {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="neworder.html">New Order</a>
+            <a href="allorders.html">All Orders</a>
+            <a href="Ldgr.html">Order Slip</a>
+            <a href="snacks.html">Snacks</a>
+            <a href="packing.html">Packing</a>
+            <a href="ordertime.html">Department Wise</a>
+            <button class="logout-button" onclick="logout()">Logout</button>
+        </nav>
+    </div>
+
+    <div class="container">
+        <div class="section">
+            <h2>Customer Details</h2>
+            <form id="customerForm">
+                <label for="orderNo">Order No:</label>
+                <input type="number" id="orderNo" name="orderNo" required>
+
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="deliveryDate">Delivery Date:</label>
+                <input type="date" id="deliveryDate" name="deliveryDate" required>
+
+                <label for="deliveryTime">Delivery Time:</label>
+                <input type="time" id="deliveryTime" name="deliveryTime" required>
+
+                <label for="advance">Advance:</label>
+                <input type="number" id="advance" name="advance" step="0.01" placeholder="Enter advance amount">
+
+                <label for="balance">Balance:</label>
+                <input type="number" id="balance" name="balance" readonly>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Box Type</h2>
+            <form id="boxForm">
+                <div id="boxContainer">
+                    <!-- Box items will be added dynamically here -->
+                </div>
+
+                <button type="button" onclick="addBox()">Add Box</button>
+            </form>
+        </div>
+
+        <div class="section">
+            <h2>Items Details</h2>
+            <form id="itemsForm">
+                <div id="itemsContainer">
+                    <!-- Item details will be added dynamically here -->
+                </div>
+
+                <button type="button" onclick="addItem()">Add Item</button>
+            </form>
+        </div>
+        
+        <!-- Save Order button -->
+        <div class="section">
+            <button type="button" onclick="saveOrder()">Save Order</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateBalance() {
+            var totalBoxElements = document.querySelectorAll('input[name="totalBox"]');
+            var boxRateElements = document.querySelectorAll('input[name="boxRate"]');
+            var packingElements = document.querySelectorAll('input[name="packing"]');
+            var advance = parseFloat(document.getElementById('advance').value) || 0;
+
+            var totalBoxCost = 0;
+            for (var i = 0; i < totalBoxElements.length; i++) {
+                var totalBox = parseFloat(totalBoxElements[i].value) || 0;
+                var boxRate = parseFloat(boxRateElements[i].value) || 0;
+                var packingCost = parseFloat(packingElements[i].value) || 0;
+
+                totalBoxCost += (totalBox * boxRate) + packingCost;
+            }
+
+            var balance = totalBoxCost - advance;
+            document.getElementById('balance').value = balance.toFixed(2);
+        }
+
+        function addBox() {
+            var container = document.createElement('div');
+            container.classList.add('item-container');
+
+            var label = document.createElement('label');
+            label.textContent = 'Box Type:';
+            container.appendChild(label);
+
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'boxType';
+            input.required = true;
+            container.appendChild(input);
+
+            label = document.createElement('label');
+            label.textContent = 'Total Box:';
+            container.appendChild(label);
+
+            input = document.createElement('input');
+            input.type = 'number';
+            input.name = 'totalBox';
+            input.required = true;
+            container.appendChild(input);
+
+            label = document.createElement('label');
+            label.textContent = 'Box Rate:';
+            container.appendChild(label);
+
+            input = document.createElement('input');
+            input.type = 'number';
+            input.name = 'boxRate';
+            input.required = true;
+            input.step = '0.01';
+            container.appendChild(input);
+
+            label = document.createElement('label');
+            label.textContent = 'Packing:';
+            container.appendChild(label);
+
+            input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'packing';
+            input.required = true;
+            container.appendChild(input);
+
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = 'Remove Box';
+            button.classList.add('remove-button');
+            button.onclick = function() {
+                removeBox(button);
+            };
+            container.appendChild(button);
+
+            document.getElementById('boxContainer').appendChild(container);
+        }
+
+        function removeBox(button) {
+            button.parentNode.remove();
+        }
+
+        function addItem() {
+            var container = document.createElement('div');
+            container.classList.add('item-container');
+
+            var label = document.createElement('label');
+            label.textContent = 'Item Name:';
+            container.appendChild(label);
+
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'itemName';
+            input.required = true;
+            container.appendChild(input);
+
+            label = document.createElement('label');
+            label.textContent = 'Quantity:';
+            container.appendChild(label);
+
+            input = document.createElement('input');
+            input.type = 'number';
+            input.name = 'quantity';
+            input.required = true;
+            input.step = '0.01';
+            container.appendChild(input);
+
+            label = document.createElement('label');
+            label.textContent = 'Department:';
+            container.appendChild(label);
+
+            input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'department';
+            input.required = true;
+            container.appendChild(input);
+
+            label = document.createElement('label');
+            label.textContent = 'Remark:';
+            container.appendChild(label);
+
+            input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'remark';
+            container.appendChild(input);
+
+            var button = document.createElement('button');
+            button.type = 'button';
+            button.textContent = 'Remove Item';
+            button.classList.add('remove-button');
+            button.onclick = function() {
+                removeItem(button);
+            };
+            container.appendChild(button);
+
+            document.getElementById('itemsContainer').appendChild(container);
+        }
+
+        function removeItem(button) {
+            button.parentNode.remove();
+        }
+
+        function saveOrder() {
+            calculateBalance();
+
+            var orderNo = document.getElementById("orderNo").value;
+            var name = document.getElementById("name").value;
+            var deliveryDate = document.getElementById("deliveryDate").value;
+            var deliveryTime = document.getElementById("deliveryTime").value;
+            var advance = document.getElementById("advance").value;
+            var balance = document.getElementById("balance").value;
+
+            var boxes = [];
+            var boxContainers = document.querySelectorAll('#boxContainer .item-container');
+            boxContainers.forEach(function(container) {
+                var boxType = container.querySelector('input[name="boxType"]').value;
+                var totalBox = container.querySelector('input[name="totalBox"]').value;
+                var boxRate = container.querySelector('input[name="boxRate"]').value;
+                var packing = container.querySelector('input[name="packing"]').value;
+                boxes.push({ type: boxType, total: totalBox, rate: boxRate, packing: packing });
+            });
+
+            var items = [];
+            var itemContainers = document.querySelectorAll('#itemsContainer .item-container');
+            itemContainers.forEach(function(container) {
+                var itemName = container.querySelector('input[name="itemName"]').value;
+                var quantity = container.querySelector('input[name="quantity"]').value;
+                var department = container.querySelector('input[name="department"]').value;
+                var remark = container.querySelector('input[name="remark"]').value;
+                items.push({ name: itemName, quantity: quantity, department: department, remark: remark });
+            });
+
+            var order = {
+                orderNo: orderNo,
+                name: name,
+                deliveryDate: deliveryDate,
+                deliveryTime: deliveryTime,
+                advance: advance,
+                balance: balance,
+                boxes: boxes,
+                items: items
+            };
+
+            var orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+            orders.push(order);
+            localStorage.setItem('allOrders', JSON.stringify(orders));
+
+            // Clear the form for the next order
+            document.getElementById("customerForm").reset();
+            document.getElementById("boxForm").reset();
+            document.getElementById("itemsForm").reset();
+            document.getElementById("balance").value = "";
+
+            // Redirect to the all orders page
+            window.location.href = "allorders.html";
+        }
+
+        function logout() {
+            // Your logout functionality here
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            // Recalculate balance when advance or box inputs change
+            document.getElementById('advance').addEventListener('input', calculateBalance);
+            document.getElementById('boxContainer').addEventListener('input', calculateBalance);
+        });
+    </script>
+</body>
+</html>
