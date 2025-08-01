@@ -1,204 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>All Orders - R.K Sweets and Namkeen</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Orders - R.K Sweets</title>
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f7f9fc;
-      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f7f7;
       color: #333;
+      padding: 10px;
     }
 
-    header {
-      background: linear-gradient(to right, #ff6a00, #ee0979);
-      color: #fff;
-      padding: 20px;
-      text-align: center;
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #343a40;
+      padding: 12px 20px;
       border-radius: 10px;
       margin-bottom: 20px;
     }
 
-    header h1 {
-      font-size: 28px;
-    }
-
-    .table-wrapper {
-      background-color: #ffffff;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 800px;
-    }
-
-    th, td {
-      padding: 12px;
-      text-align: left;
-      border-bottom: 1px solid #eaeaea;
-    }
-
-    th {
-      background-color: #ff6a00;
+    .navbar .logo {
       color: white;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    tr:hover {
-      background-color: #f1f1f1;
-    }
-
-    .status {
-      padding: 5px 10px;
-      border-radius: 6px;
       font-weight: bold;
+      font-size: 20px;
     }
 
-    .pending {
-      background-color: #ffe58f;
-      color: #856404;
+    .navbar .nav-links a {
+      color: #ffffff;
+      text-decoration: none;
+      margin-left: 15px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.3s;
     }
 
-    .completed {
-      background-color: #c3e6cb;
-      color: #155724;
+    .navbar .nav-links a:hover,
+    .navbar .nav-links .active {
+      background-color: #495057;
     }
 
-    .action-btns button {
-      padding: 6px 10px;
-      margin-right: 5px;
-      font-size: 13px;
+    .container {
+      margin: 0 auto;
+      max-width: 1000px;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+      color: #2c3e50;
+    }
+
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .section {
+      flex: 1 1 300px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #555;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+
+    .item-container {
+      width: 100%;
+    }
+
+    button {
+      width: 100%;
+      background-color: #007bff;
+      color: #fff;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
+      padding: 14px;
+      font-size: 16px;
       cursor: pointer;
+      transition: background 0.3s ease;
     }
 
-    .edit-btn {
-      background-color: #17a2b8;
-      color: white;
+    button:hover {
+      background-color: #0056b3;
     }
 
-    .delete-btn {
-      background-color: #dc3545;
-      color: white;
-    }
-
-    @media screen and (max-width: 768px) {
-      header h1 {
-        font-size: 20px;
-      }
-
-      th, td {
-        padding: 10px 8px;
-        font-size: 14px;
-      }
-
-      .action-btns button {
-        padding: 5px 8px;
-        font-size: 12px;
+    @media (max-width: 768px) {
+      .section {
+        flex: 1 1 100%;
       }
     }
   </style>
 </head>
+
 <body>
+  <nav class="navbar">
+    <div class="logo">🍬 R.K Sweets</div>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="#" class="active">All Orders</a>
+    </div>
+  </nav>
 
-  <header>
-    <h1>All Orders - R.K Sweets and Namkeen</h1>
-    <p>Track all customer orders from one dashboard</p>
-  </header>
+  <div class="container">
+    <h2>All Orders</h2>
+    <form>
+      <div class="section">
+        <label for="orderId">Order ID</label>
+        <input type="text" id="orderId" name="orderId">
 
-  <div class="table-wrapper">
-    <table id="ordersTable">
-      <thead>
-        <tr>
-          <th>Order ID</th>
-          <th>Customer</th>
-          <th>Item</th>
-          <th>Qty</th>
-          <th>Total</th>
-          <th>Status</th>
-          <th>Date</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Orders will be inserted here -->
-      </tbody>
-    </table>
+        <label for="customerName">Customer Name</label>
+        <input type="text" id="customerName" name="customerName">
+
+        <label for="orderDate">Order Date</label>
+        <input type="date" id="orderDate" name="orderDate">
+      </div>
+
+      <div class="section">
+        <label for="itemCount">Item Count</label>
+        <input type="number" id="itemCount" name="itemCount">
+
+        <label for="deliveryDate">Delivery Date</label>
+        <input type="date" id="deliveryDate" name="deliveryDate">
+
+        <label for="deliveryTime">Delivery Time</label>
+        <input type="time" id="deliveryTime" name="deliveryTime">
+      </div>
+
+      <div class="item-container">
+        <label for="items">Items List</label>
+        <input type="text" id="items" name="items">
+      </div>
+
+      <button type="submit">Submit Order</button>
+    </form>
   </div>
-
-  <script>
-    const orders = [
-      {
-        id: "ORD-101",
-        name: "Ravi Kumar",
-        item: "Dry Fruit Hamper",
-        qty: 2,
-        total: 1000,
-        status: "Pending",
-        date: "2025-08-01"
-      },
-      {
-        id: "ORD-102",
-        name: "Simran Kaur",
-        item: "Chocolate Tray",
-        qty: 1,
-        total: 450,
-        status: "Completed",
-        date: "2025-08-01"
-      }
-    ];
-
-    function renderOrders() {
-      const tbody = document.querySelector("#ordersTable tbody");
-      tbody.innerHTML = "";
-      orders.forEach(order => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-          <td>${order.id}</td>
-          <td>${order.name}</td>
-          <td>${order.item}</td>
-          <td>${order.qty}</td>
-          <td>₹${order.total}</td>
-          <td><span class="status ${order.status.toLowerCase()}">${order.status}</span></td>
-          <td>${order.date}</td>
-          <td class="action-btns">
-            <button class="edit-btn" onclick="editOrder('${order.id}')">Edit</button>
-            <button class="delete-btn" onclick="deleteOrder('${order.id}')">Delete</button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-
-    function editOrder(id) {
-      alert("Edit order: " + id);
-    }
-
-    function deleteOrder(id) {
-      if (confirm("Are you sure to delete order: " + id + "?")) {
-        alert("Deleted order: " + id);
-      }
-    }
-
-    window.onload = renderOrders;
-  </script>
-
 </body>
+
 </html>
+
+
