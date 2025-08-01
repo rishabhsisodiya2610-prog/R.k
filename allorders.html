@@ -1,160 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Order System</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Orders - R.K Sweets and Namkeen</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            line-height: 1.6;
-        }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f7f9fc;
+      padding: 20px;
+      color: #333;
+    }
 
-        nav {
-            background-color: #343a40;
-            padding: 15px 10px;
-            text-align: center;
-        }
+    header {
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 16px;
-            margin: 5px;
-            display: inline-block;
-            border-radius: 6px;
-            background-color: #495057;
-            transition: background-color 0.3s ease;
-        }
+    header h1 {
+      font-size: 28px;
+    }
 
-        nav a:hover {
-            background-color: #6c757d;
-        }
+    .table-wrapper {
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      overflow-x: auto;
+    }
 
-        .container {
-            width: 90%;
-            max-width: 1100px;
-            margin: 20px auto;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
 
-        h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #007bff;
-        }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eaeaea;
+    }
 
-        form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+    th {
+      background-color: #ff6a00;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
 
-        .section {
-            flex: 1 1 30%;
-            min-width: 250px;
-        }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: #555;
-            font-weight: 500;
-        }
+    .status {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
 
-        input[type="text"],
-        input[type="number"],
-        input[type="date"],
-        input[type="time"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            margin-bottom: 15px;
-        }
+    .pending {
+      background-color: #ffe58f;
+      color: #856404;
+    }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: #007bff;
-            color: white;
-            font-size: 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
+    .completed {
+      background-color: #c3e6cb;
+      color: #155724;
+    }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+    .action-btns button {
+      padding: 6px 10px;
+      margin-right: 5px;
+      font-size: 13px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
 
-        .item-container {
-            flex: 1 1 100%;
-            margin-top: 20px;
-        }
+    .edit-btn {
+      background-color: #17a2b8;
+      color: white;
+    }
 
-        @media (max-width: 768px) {
-            form {
-                flex-direction: column;
-            }
+    .delete-btn {
+      background-color: #dc3545;
+      color: white;
+    }
 
-            .section {
-                flex: 1 1 100%;
-            }
-        }
-    </style>
+    @media screen and (max-width: 768px) {
+      header h1 {
+        font-size: 20px;
+      }
+
+      th, td {
+        padding: 10px 8px;
+        font-size: 14px;
+      }
+
+      .action-btns button {
+        padding: 5px 8px;
+        font-size: 12px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Orders</a>
-        <a href="#">Production</a>
-        <a href="#">Packing</a>
-        <a href="#">Delivery</a>
-    </nav>
-    <div class="container">
-        <h2>New Order Form</h2>
-        <form>
-            <div class="section">
-                <label for="product">Product Name</label>
-                <input type="text" id="product" name="product" />
 
-                <label for="qty">Quantity</label>
-                <input type="number" id="qty" name="qty" />
-            </div>
+  <header>
+    <h1>All Orders - R.K Sweets and Namkeen</h1>
+    <p>Track all customer orders from one dashboard</p>
+  </header>
 
-            <div class="section">
-                <label for="date">Date</label>
-                <input type="date" id="date" name="date" />
+  <div class="table-wrapper">
+    <table id="ordersTable">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Orders will be inserted here -->
+      </tbody>
+    </table>
+  </div>
 
-                <label for="time">Time</label>
-                <input type="time" id="time" name="time" />
-            </div>
+  <script>
+    const orders = [
+      {
+        id: "ORD-101",
+        name: "Ravi Kumar",
+        item: "Dry Fruit Hamper",
+        qty: 2,
+        total: 1000,
+        status: "Pending",
+        date: "2025-08-01"
+      },
+      {
+        id: "ORD-102",
+        name: "Simran Kaur",
+        item: "Chocolate Tray",
+        qty: 1,
+        total: 450,
+        status: "Completed",
+        date: "2025-08-01"
+      }
+    ];
 
-            <div class="section">
-                <label for="customer">Customer Name</label>
-                <input type="text" id="customer" name="customer" />
+    function renderOrders() {
+      const tbody = document.querySelector("#ordersTable tbody");
+      tbody.innerHTML = "";
+      orders.forEach(order => {
+        const row = document.createElement("tr");
 
-                <label for="phone">Phone Number</label>
-                <input type="text" id="phone" name="phone" />
-            </div>
+        row.innerHTML = `
+          <td>${order.id}</td>
+          <td>${order.name}</td>
+          <td>${order.item}</td>
+          <td>${order.qty}</td>
+          <td>₹${order.total}</td>
+          <td><span class="status ${order.status.toLowerCase()}">${order.status}</span></td>
+          <td>${order.date}</td>
+          <td class="action-btns">
+            <button class="edit-btn" onclick="editOrder('${order.id}')">Edit</button>
+            <button class="delete-btn" onclick="deleteOrder('${order.id}')">Delete</button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
 
-            <div class="item-container">
-                <button type="submit">Submit Order</button>
-            </div>
-        </form>
-    </div>
+    function editOrder(id) {
+      alert("Edit order: " + id);
+    }
+
+    function deleteOrder(id) {
+      if (confirm("Are you sure to delete order: " + id + "?")) {
+        alert("Deleted order: " + id);
+      }
+    }
+
+    window.onload = renderOrders;
+  </script>
+
 </body>
 </html>
