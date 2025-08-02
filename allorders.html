@@ -1111,7 +1111,7 @@ function sendAllToWhatsApp() {
 
 
         function addBox() {
-
+or
             var boxesContainer = document.getElementById('boxesContainer');
 
             var boxDiv = document.createElement('div');
@@ -1140,8 +1140,238 @@ function sendAllToWhatsApp() {
 
             itemDiv.classList.add('item-row');
 
-            itemDiv.innerHTML = `
+            itemDiv.innerHTML = `<input type="text" name="itemName" placeholder="Item Name">
+
+                         <input type="number" name="itemQuantity" placeholder="Quantity">
+
+                         <input type="text" name="itemDepartment" placeholder="Department">
+
+                         <textarea name="itemRemark" placeholder="Remark"></textarea>
+
+                         <button type="button" onclick="removeItem(this)">Remove</button>`;
+
+            itemsContainer.appendChild(itemDiv);
+
+        }
 
 
+
+        function removeBox(button) {
+
+            button.parentNode.remove();
+
+        }
+
+
+
+        function removeItem(button) {
+
+            button.parentNode.remove();
+
+        }
+
+
+
+        function confirmRemoveOrder(orderNo) {
+
+            var orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+
+            var orderToRemove = orders.find(function (order) {
+
+                return order.orderNo === orderNo;
+
+            });
+
+
+
+            var confirmationMessage = "Are you sure you want to remove the following order?\n\n";
+
+            confirmationMessage += "Order No: " + orderToRemove.orderNo + "\n";
+
+            confirmationMessage += "Name: " + orderToRemove.name + "\n";
+
+            confirmationMessage += "Delivery Date: " + orderToRemove.deliveryDate + "\n";
+
+            confirmationMessage += "Delivery Time: " + orderToRemove.deliveryTime + "\n";
+
+            confirmationMessage += "Advance: " + orderToRemove.advance + "\n";
+
+            confirmationMessage += "Balance: " + orderToRemove.balance + "\n";
+
+
+
+            if (confirm(confirmationMessage)) {
+
+                removeOrder(orderNo);
+
+            }
+
+        }
+
+
+
+        function removeOrder(orderNo) {
+
+            var orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+
+            var filteredOrders = orders.filter(function (order) {
+
+                return order.orderNo !== orderNo;
+
+            });
+
+            localStorage.setItem('allOrders', JSON.stringify(filteredOrders));
+
+            location.reload(); // Reload the page to reflect the changes
+
+        }
+
+
+
+        function parseBoxes() {
+
+            var boxesContainer = document.getElementById('boxesContainer');
+
+            var boxes = [];
+
+            var boxDivs = boxesContainer.querySelectorAll('.item-row');
+
+            boxDivs.forEach(function (boxDiv) {
+
+                var type = boxDiv.querySelector('input[name="boxType"]').value;
+
+                var total = boxDiv.querySelector('input[name="boxTotal"]').value;
+
+                var rate = boxDiv.querySelector('input[name="boxRate"]').value;
+
+                boxes.push({ type: type, total: total, rate: rate });
+
+            });
+
+            return boxes;
+
+        }
+
+
+
+        function parseItems() {
+
+            var itemsContainer = document.getElementById('itemsContainer');
+
+            var items = [];
+
+            var itemDivs = itemsContainer.querySelectorAll('.item-row');
+
+            itemDivs.forEach(function (itemDiv) {
+
+                var name = itemDiv.querySelector('input[name="itemName"]').value;
+
+                var quantity = itemDiv.querySelector('input[name="itemQuantity"]').value;
+
+                var department = itemDiv.querySelector('input[name="itemDepartment"]').value;
+
+                var remark = itemDiv.querySelector('textarea[name="itemRemark"]').value; // Get the value of the remark field
+
+                items.push({ name: name, quantity: quantity, department: department, remark: remark });
+
+            });
+
+            return items;
+
+        }
+
+
+
+        function filterOrders() {
+
+            var filterDate = document.getElementById('filterDate').value;
+
+            var filterOrderNo = document.getElementById('filterOrderNo').value;
+
+            var orders = JSON.parse(localStorage.getItem('allOrders')) || [];
+
+
+
+            var filteredOrders = orders.filter(function (order) {
+
+                return (filterDate === '' || order.deliveryDate === filterDate) &&
+
+                    (filterOrderNo === '' || order.orderNo == filterOrderNo);
+
+            });
+
+
+
+            var ordersBody = document.getElementById('ordersBody');
+
+            ordersBody.innerHTML = ''; // Clear previous content
+
+
+
+            filteredOrders.forEach(function (order) {
+
+                var row = document.createElement('tr');
+
+
+
+                var orderInfo = [
+
+                    order.orderNo,
+
+                    order.name,
+
+                    order.deliveryDate,
+
+                    order.deliveryTime,
+
+                    order.advance,
+
+                    order.balance,
+
+                    formatBoxes(order.boxes),
+
+                    formatItems(order.items),
+
+                    formatItemsDepartments(order.items),
+
+                    formatItemsQuantities(order.items),
+
+                    // Added buttons for editing and removing orders
+
+                    `<button onclick="openEditModal('${order.orderNo}')">Edit</button> <button onclick="confirmRemoveOrder('${order.orderNo}')">Remove</button>`
+
+                ];
+
+
+
+                orderInfo.forEach(function (data) {
+
+                    var cell = document.createElement('td');
+
+                    cell.innerHTML = data;
+
+                    row.appendChild(cell);
+
+                });
+
+
+
+                ordersBody.appendChild(row);
+
+            });
+
+        }
+
+
+
+    </script>
+
+
+
+</body>
+
+
+
+</html>
 
 
